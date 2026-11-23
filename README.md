@@ -1,6 +1,6 @@
 # SIGD Firebase
 
-Implementación del mismo modelo lógico con colecciones Firestore y archivos en Cloud Storage. Cada tabla se traduce a una colección raíz `{tabla}/{id}`; las relaciones mantienen IDs estables. `modelo/firebase-mapping.json` detalla las 58 colecciones y sus referencias. `modelo/SIGD_Modelado_BD_CORREGIDO_v2.pdf` contiene el diagrama corregido.
+Implementación del mismo modelo lógico con colecciones Firestore y archivos en Cloud Storage. Cada tabla se traduce a una colección raíz `{tabla}/{id}`; las relaciones mantienen IDs estables. `modelo/firebase-mapping.json` detalla las 58 colecciones y sus referencias. El diagrama relacional oficial (notación pata de gallo, vista general y una lámina por dominio) está en `modelo/diagrama_relacional/SIGD_Diagrama_Relacional.pdf`; las láminas `modelo/SIGD_*_CORREGIDO_v2.pdf` son una versión anterior.
 
 ## Ejecutar con emuladores
 
@@ -43,4 +43,17 @@ npm.cmd test
 npm.cmd run test:provider
 ```
 
-Las pruebas del dominio compartido fueron ejecutadas. Las pruebas contra emuladores o un proyecto Firebase real quedaron pendientes por falta de emuladores y credenciales en el entorno de ejecución. El código, reglas, índices y semilla están preparados; no se declara una base desplegada ni validada en la nube.
+## Estado de validación (23/11/2026)
+
+Ejecutado contra Firebase Emulator Suite (Firestore 8080, Storage 9199, `firebase-tools` 15.37):
+
+| Comprobación | Resultado |
+|---|---|
+| `npm test` (dominio compartido) | 26/26 |
+| `npm run test:provider` (transacción, relaciones, reversión) | 1/1 |
+| `npm run seed` y `npm run check` | 58 colecciones, relaciones válidas |
+| Cliente sin credenciales lee `users` | 403 (reglas cerradas) |
+| Cliente sin credenciales lista Storage | 403 |
+| Recorrido completo en navegador con `sigd-sistema` sobre Firestore (plan, envío, aprobación, informe, evidencia, Administración, Reportes) | 11/11 pasos, sin errores de JavaScript |
+
+Cada petición tarda entre 0.7 y 2.3 s en el emulador porque el adaptador lee todas las colecciones por transacción; el recorrido necesita tiempos de espera amplios. No se probó un proyecto Firebase real en la nube ni carga concurrente.
