@@ -1,0 +1,19 @@
+{
+  "name": "sigd-firebase",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/server.mjs",
+    "seed": "node --env-file-if-exists=.env src/db-cli.mjs seed",
+    "check": "node --env-file-if-exists=.env src/db-cli.mjs check",
+    "test": "node --test test/domain.test.mjs",
+    "test:provider": "node --env-file-if-exists=.env --test test/provider.test.mjs"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.6.0"
+  }
+}

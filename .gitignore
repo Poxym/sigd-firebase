@@ -1,6 +1,6 @@
-.env
-.firebaserc
 node_modules/
-*service-account*.json
-firebase-debug.log
-firestore-debug.log
+data/
+.env
+*.log
+coverage/
+test-results/
