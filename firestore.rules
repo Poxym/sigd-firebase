@@ -1,0 +1,8 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Acceso exclusivamente mediante API con autorización de dominio.
+    // El Admin SDK usa IAM y no depende de estas reglas.
+    match /{document=**} { allow read, write: if false; }
+  }
+}
